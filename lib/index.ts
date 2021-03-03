@@ -17,7 +17,15 @@ const store: Store = {};
 
 type UseMaruReturn<T> = [T, (value: T) => void];
 
-export const useMaru = <T>(key: string, initialValue?: T): UseMaruReturn<T> => {
+export const useMaruInitialization = (initialData: Record<string, any>) => {
+  useEffect(() => {
+    Object.keys(initialData).forEach((key) => {
+      store[key] = { value: initialData[key], triggers: {} };
+    });
+  }, []);
+};
+
+export const useMaru = <T>(key: string): UseMaruReturn<T> => {
   const [id] = useState(Math.floor(Math.random() * 100000000000).toString());
   const [shouldUpdate, setShouldUpdate] = useState(false);
 
@@ -34,10 +42,7 @@ export const useMaru = <T>(key: string, initialValue?: T): UseMaruReturn<T> => {
   }, [key, id]);
 
   if (!store[key]) {
-    if (initialValue === undefined) {
-      throw "'initialValue' cannot be undefined. If intended, use null instead.";
-    }
-    store[key] = { value: initialValue, triggers: {} };
+    throw `The state for key '${key}' has not been initialized.`;
   }
   const maru = store[key] as Maru<T>;
 
