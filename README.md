@@ -48,7 +48,7 @@ const CounterB = () => {
 
 const CounterC = () => {
   /* 
-    You can leave 'initialValue' field empty it was initialized by other component (Counter A).
+    You can leave 'initialValue' field empty if it was initialized by other component (Counter A).
     However, you should pass a type argument 'number' to get correct type of 'count' and 'setCount'
   */
   const [count, setCount] = useMaru<number>("count");
