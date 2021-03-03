@@ -58,3 +58,8 @@ export const useMaru = <T>(key: string, initialValue?: T): UseMaruReturn<T> => {
 
   return [maru.value, setMaruState];
 };
+
+// for testing purpose
+export const clearStore = () => {
+  Object.keys(store).forEach((key) => delete store[key]);
+};
