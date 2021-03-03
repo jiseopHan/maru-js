@@ -14,21 +14,34 @@ or using yarn,
 yarn add maru-js
 ```
 
-## useMaru
+## Quick guide with example codes
 
-Usage
+Initialize first from root component.
 
 ```typescript
-const [state, setState] = useMaru(key, initialValue);
+// App.tsx
+
+import { useMaruInitialization } from "maru-js";
+
+const App = () => {
+  useMaruInitialization({ counter: 0, inputValue: "" });
+
+  return (
+    <div>
+      <CounterA />
+      <CounterB />
+    </div>
+  );
+};
 ```
 
-Example
+Then, use states from any component.
 
 ```tsx
 import { useMaru } from "maru-js";
 
 const CounterA = () => {
-  const [count, setCount] = useMaru("count", 0);
+  const [count, setCount] = useMaru("count");
   return (
     <button type="button" onClick={() => setCount(count + 1)}>
       A: {count}
@@ -37,8 +50,7 @@ const CounterA = () => {
 };
 
 const CounterB = () => {
-  // Default value 0 won't be used if there already exists a state with same key "count"
-  const [count, setCount] = useMaru("count", 0);
+  const [count, setCount] = useMaru("count");
   return (
     <button type="button" onClick={() => setCount(count + 1)}>
       B: {count}
@@ -46,16 +58,14 @@ const CounterB = () => {
   );
 };
 
-const CounterC = () => {
-  /* 
-    You can leave 'initialValue' field empty if it was initialized by other component (Counter A).
-    However, you should pass a type argument 'number' to get correct type of 'count' and 'setCount'
-  */
-  const [count, setCount] = useMaru<number>("count");
+const Input = () => {
+  const [inputValue, setInputValue] = useMaru("inputValue");
   return (
-    <button type="button" onClick={() => setCount(count + 1)}>
-      C: {count}
-    </button>
+    <input
+      type="text"
+      value={inputValue}
+      onChange={({ target }) => setInputValue(target.value)}
+    />
   );
 };
 ```
