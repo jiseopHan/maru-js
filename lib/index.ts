@@ -18,10 +18,19 @@ const store: Store = {};
 type UseMaruReturn<T> = [T, (value: T) => void];
 
 export const useMaruInitialization = (initialData: Record<string, any>) => {
-  useEffect(() => {
+  const [mount, setMount] = useState(false);
+
+  if (!mount) {
     Object.keys(initialData).forEach((key) => {
       store[key] = { value: initialData[key], triggers: {} };
     });
+  }
+
+  useEffect(() => {
+    if (mount) {
+      return;
+    }
+    setMount(true);
   }, []);
 };
 
