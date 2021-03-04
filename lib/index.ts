@@ -65,7 +65,9 @@ export const useMaru = <T>(key: string): UseMaruReturn<T> => {
     (value: T) => {
       maru.value = value;
       const { triggers } = maru;
-      Object.keys(triggers).forEach((triggerId) => triggers[triggerId]());
+      setTimeout(() => {
+        Object.keys(triggers).forEach((triggerId) => triggers[triggerId]());
+      }, 0);
     },
     [maru]
   );

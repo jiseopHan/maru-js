@@ -2,6 +2,7 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { clearStore, useMaru, useMaruInitialization } from "../lib";
 
 describe("useMaru", () => {
+  beforeEach(() => jest.useFakeTimers());
   afterEach(() => clearStore());
 
   test("should be initialized", () => {
@@ -15,6 +16,7 @@ describe("useMaru", () => {
     const { result } = renderHook(() => useMaru("count"));
     act(() => {
       result.current[1](1);
+      jest.runAllTimers();
     });
     expect(result.current[0]).toBe(1);
   });
@@ -34,8 +36,8 @@ describe("useMaru", () => {
 
     act(() => {
       resultA.current[1](1);
+      jest.runAllTimers();
     });
-
     expect(resultB.current[0]).toBe(1);
   });
 });
